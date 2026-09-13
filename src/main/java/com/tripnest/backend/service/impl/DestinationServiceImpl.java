@@ -96,6 +96,13 @@ public class DestinationServiceImpl implements DestinationService {
                 .bestTimeToVisit(request.getBestTimeToVisit())
                 .category(request.getCategory())
                 .isPopular(request.getIsPopular() != null ? request.getIsPopular() : false)
+                .currency(request.getCurrency())
+                .language(request.getLanguage())
+                .climate(request.getClimate())
+                .transportation(request.getTransportation())
+                .visaRequirements(request.getVisaRequirements())
+                .timeZone(request.getTimeZone())
+                .travelTips(request.getTravelTips() != null ? new java.util.ArrayList<>(request.getTravelTips()) : new java.util.ArrayList<>())
                 .favoriteCount(0L)
                 .build();
 
@@ -119,6 +126,27 @@ public class DestinationServiceImpl implements DestinationService {
         if (request.getIsPopular() != null) {
             destination.setIsPopular(request.getIsPopular());
         }
+        if (request.getCurrency() != null) {
+            destination.setCurrency(request.getCurrency());
+        }
+        if (request.getLanguage() != null) {
+            destination.setLanguage(request.getLanguage());
+        }
+        if (request.getClimate() != null) {
+            destination.setClimate(request.getClimate());
+        }
+        if (request.getTransportation() != null) {
+            destination.setTransportation(request.getTransportation());
+        }
+        if (request.getVisaRequirements() != null) {
+            destination.setVisaRequirements(request.getVisaRequirements());
+        }
+        if (request.getTimeZone() != null) {
+            destination.setTimeZone(request.getTimeZone());
+        }
+        if (request.getTravelTips() != null) {
+            destination.setTravelTips(new java.util.ArrayList<>(request.getTravelTips()));
+        }
 
         Destination saved = destinationRepository.save(destination);
         Long currentUserId = SecurityUtils.getCurrentUserId().orElse(null);
@@ -140,6 +168,24 @@ public class DestinationServiceImpl implements DestinationService {
             isFavorited = favoriteDestinationRepository.existsByUserIdAndDestinationId(currentUserId, destination.getId());
         }
 
+        java.util.List<com.tripnest.backend.dto.response.AttractionResponse> attractionResponses = null;
+        if (destination.getAttractions() != null && !destination.getAttractions().isEmpty()) {
+            attractionResponses = destination.getAttractions().stream()
+                    .map(a -> com.tripnest.backend.dto.response.AttractionResponse.builder()
+                            .id(a.getId())
+                            .destinationId(destination.getId())
+                            .name(a.getName())
+                            .description(a.getDescription())
+                            .imageUrl(a.getImageUrl())
+                            .location(a.getLocation())
+                            .category(a.getCategory())
+                            .entryFee(a.getEntryFee())
+                            .createdAt(a.getCreatedAt())
+                            .updatedAt(a.getUpdatedAt())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+
         return DestinationResponse.builder()
                 .id(destination.getId())
                 .name(destination.getName())
@@ -150,6 +196,14 @@ public class DestinationServiceImpl implements DestinationService {
                 .bestTimeToVisit(destination.getBestTimeToVisit())
                 .category(destination.getCategory())
                 .isPopular(destination.getIsPopular())
+                .currency(destination.getCurrency())
+                .language(destination.getLanguage())
+                .climate(destination.getClimate())
+                .transportation(destination.getTransportation())
+                .visaRequirements(destination.getVisaRequirements())
+                .timeZone(destination.getTimeZone())
+                .travelTips(destination.getTravelTips() != null ? new java.util.ArrayList<>(destination.getTravelTips()) : new java.util.ArrayList<>())
+                .attractions(attractionResponses)
                 .favoriteCount(destination.getFavoriteCount() != null ? destination.getFavoriteCount() : 0L)
                 .isFavorited(isFavorited)
                 .createdAt(destination.getCreatedAt())

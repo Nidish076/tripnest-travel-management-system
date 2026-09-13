@@ -21,5 +21,15 @@ public class DestinationResponse {
     private Boolean isPopular;
     private Long favoriteCount;
     private Boolean isFavorited; // If authenticated user has favorited it
+
+    private String currency;
+    private String language;
+    private String climate;
+    private String transportation;
+    private String visaRequirements;
+    private String timeZone;
+    private java.util.List<String> travelTips;
+    private java.util.List<AttractionResponse> attractions;
+
     private LocalDateTime createdAt;
 }

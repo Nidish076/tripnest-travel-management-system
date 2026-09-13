@@ -49,6 +49,39 @@ public class Destination {
     @Builder.Default
     private Long favoriteCount = 0L;
 
+    @OneToMany(
+        mappedBy = "destination",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @Builder.Default
+    private java.util.List<Attraction> attractions = new java.util.ArrayList<>();
+
+    @Column(name = "currency")
+    private String currency;
+
+    @Column(name = "language")
+    private String language;
+
+    @Column(name = "climate")
+    private String climate;
+
+    @Column(name = "transportation")
+    private String transportation;
+
+    @Column(name = "visa_requirements")
+    private String visaRequirements;
+
+    @Column(name = "time_zone")
+    private String timeZone;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "destination_travel_tips", joinColumns = @JoinColumn(name = "destination_id"))
+    @Column(name = "tip", length = 1000)
+    @Builder.Default
+    private java.util.List<String> travelTips = new java.util.ArrayList<>();
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -56,4 +89,14 @@ public class Destination {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public void addAttraction(Attraction attraction) {
+        attractions.add(attraction);
+        attraction.setDestination(this);
+    }
+
+    public void removeAttraction(Attraction attraction) {
+        attractions.remove(attraction);
+        attraction.setDestination(null);
+    }
 }

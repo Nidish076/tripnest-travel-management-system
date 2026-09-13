@@ -1,7 +1,9 @@
 package com.tripnest.backend.controller;
 
 import com.tripnest.backend.dto.response.ApiResponse;
+import com.tripnest.backend.dto.response.AttractionResponse;
 import com.tripnest.backend.dto.response.DestinationResponse;
+import com.tripnest.backend.service.AttractionService;
 import com.tripnest.backend.service.DestinationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import java.util.List;
 public class DestinationController {
 
     private final DestinationService destinationService;
+    private final AttractionService attractionService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<DestinationResponse>>> searchDestinations(
@@ -38,6 +41,12 @@ public class DestinationController {
     public ResponseEntity<ApiResponse<DestinationResponse>> getDestinationById(@PathVariable Long id) {
         DestinationResponse destination = destinationService.getDestinationById(id);
         return ResponseEntity.ok(ApiResponse.success("Destination retrieved successfully", destination));
+    }
+
+    @GetMapping("/{id}/attractions")
+    public ResponseEntity<ApiResponse<List<AttractionResponse>>> getAttractionsByDestinationId(@PathVariable Long id) {
+        List<AttractionResponse> attractions = attractionService.getAttractionsByDestinationId(id);
+        return ResponseEntity.ok(ApiResponse.success("Attractions retrieved successfully", attractions));
     }
 
     @GetMapping("/popular")

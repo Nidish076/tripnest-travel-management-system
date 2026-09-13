@@ -22,4 +22,12 @@ public class DestinationRequest {
     private String bestTimeToVisit;
     private String category;
     private Boolean isPopular;
+
+    private String currency;
+    private String language;
+    private String climate;
+    private String transportation;
+    private String visaRequirements;
+    private String timeZone;
+    private java.util.List<String> travelTips;
 }
