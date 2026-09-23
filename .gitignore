@@ -1,0 +1,21 @@
+# Maven
+target/
+*.jar
+*.war
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Environment & Secrets & Logs
+.env
+application-local.properties
+*.log
+data/
+
+# OS
+.DS_Store
+Thumbs.db
