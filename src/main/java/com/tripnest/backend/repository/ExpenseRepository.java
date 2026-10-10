@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findByTripId(Long tripId);
+    java.util.List<com.tripnest.backend.entity.Expense> findByTripGroupId(Long groupId);
 }

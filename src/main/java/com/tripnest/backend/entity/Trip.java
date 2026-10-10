@@ -42,6 +42,11 @@ public class Trip {
     @JoinColumn(name = "user_id")
     private User user;
 
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private TravelGroup group;
+    
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
